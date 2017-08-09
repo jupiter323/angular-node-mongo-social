@@ -310,3 +310,4 @@ app.use('/expertcategoryname', require('./routes/expertcategoryname'))
 app.use('/authorname', require('./routes/authorname'))
 app.use('/availability', require('./routes/availability'))
 app.use('/seo', require('./routes/seo'))
+app.use('/checkout', require('./routes/checkout'));

@@ -18,13 +18,10 @@
 			<!-- <pieces></pieces> -->
 			<p class="cap"></p>
 			<aboutbox></aboutbox>
-
 		</div>
-
-
 		<div class="middle">
 			<div class="">
-				<div class="bookingtime">
+				<div class="bookingtime" ng-show="bookTimeShow||bookingConfirmShow">
 					<div class="bookingtimetl">
 						<h1>Booking Time</h1>
 						<span> Choose date and time , Date range max 30 days</span>
@@ -50,6 +47,10 @@
 									<option>30 min</option>
 									<option>45 min</option>
 									<option>60 min</option>
+								</select>
+								<select>
+									<option>One-o-one</option>
+									<option>Group booking</option>
 								</select>
 							</div>
 							<div>
@@ -82,12 +83,12 @@
 						</div> -->
 					</div>
 					<div class="priceipbk">
-						<h1>Set Price (USD)</h1>
-						<input type="text" name="" ng-model="setpriceipbk">
+						<h1>Subtotal 100$</h1>
+						<!-- <input type="text" name="" ng-model="setpriceipbk"> -->
 					</div>
 					<div class="booking-bottom">
 
-						<button ng-click="saveallbkst()">SAVE</button>
+						<!-- <button ng-click="AtTimNext()">NEXT</button> -->
 						<div class="clear"> </div>
 						<div class="tb-request">
 							<div ng-class="submitClass">
@@ -95,6 +96,41 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="bookingtime" ng-show="bookingPaymentShow">
+
+
+					<div class="bookingtimetl">
+						<h1>Select payment method</h1>
+					</div>
+
+					<!-- payment link -->
+					<!-- <div id="paypal-button"></div> -->
+
+					<div id="dropin-wrapper">
+						<div id="checkout-message"></div>
+						<div id="dropin-container"></div>
+						<!-- <button id="submit-button">Submit payment</button> -->
+					</div>
+					<div class="priceipbk">
+						<h1>Subtotal 100$</h1>
+						<!-- <input type="text" name="" ng-model="setpriceipbk"> -->
+					</div>
+					<div class="booking-bottom">
+
+						<button id="submit-button" ng-click="AtPaymentNext()">NEXT</button>
+						<div class="clear"> </div>
+						<div class="tb-request">
+							<div ng-class="submitClass">
+								{{submitResult}}
+							</div>
+						</div>
+					</div>
+					<script>
+						
+					</script>
+					<!-- end payment link -->
+
 				</div>
 			</div>
 		</div>
@@ -107,15 +143,15 @@
 							<div class="booktime-sl">
 								<ul>
 									<li>
-										<i class="fa fa-angle-left" aria-hidden="true"></i>
+										<i ng-class="bookTimeShow?'fa fa-angle-left':'fa  fa-check'" aria-hidden="true"></i>
 										Step1:Bookking time
 									</li>
 									<li>
-										<i class="fa fa-check" aria-hidden="true"></i>
+										<i ng-class="bookingPaymentShow?'fa fa-angle-left':'fa  fa-check'" aria-hidden="true"></i>
 										Step2:Select Payment Method
 									</li>
 									<li>
-										<i class="fa  fa-check" aria-hidden="true"></i>
+										<i ng-class="bookingConfirmShow?'fa fa-angle-left':'fa  fa-check'" aria-hidden="true"></i>
 										Step3:Confirm Booking
 									</li>
 								</ul>

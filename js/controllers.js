@@ -1174,7 +1174,11 @@ angular.module('er.controllers', [])
 		$scope.addBooking = addBooking;
 		$scope.savestbkus = savestbkus;
 		$scope.saveallbkst = saveallbkst;
+		$scope.AtPaymentNext = AtPaymentNext;
 
+		$scope.bookTimeShow = true;
+		$scope.bookingPaymentShow = false;
+		$scope.bookingConfirmShow = false;
 		// function submitRating (){
 		// 	var data = {
 		// 		rate: $scope.choosenRating,
@@ -1186,53 +1190,125 @@ angular.module('er.controllers', [])
 		// 	})
 		// }
 		
-		TimekitBooking().init({
-			// widgetId: '4c860b82-d614-4b7f-b6ea-480e3ac9a568',
-			// name: 'Doc Brown',
-			email: "wnfsocial@gmail.com",
-			apiToken: 'AuArQ3l8kGPuXesqqrsSoh06eVLtnUev',
-			// calendar: '098c1cdc-676b-4f65-941b-c3964770e0e8',			
-			// avatar: '../misc/avatar-doc.jpg',
-			app: 'test-wisnewsfeed-1453',
-			// callbacks: {
-			// 	findTimeStarted: function (args) { console.log('findTimeStarted', args); },
-			// 	findTimeSuccessful: function (response) { console.log('findTimeSuccessful', response); },
-			// 	findTimeFailed: function (response) { console.log('findTimeFailed', response); },
-			// 	createBookingStarted: function (args) { console.log('createBookingStarted', args); },
-			// 	createBookingSuccessful: function (response) { console.log('createBookingSuccessful', response); },
-			// 	createBookingFailed: function (response) { console.log('createBookingFailed', response); },
-			// 	getUserTimezoneStarted: function (args) { console.log('getUserTimezoneStarted', args); },
-			// 	getUserTimezoneSuccesful: function (response) { console.log('getUserTimezoneSuccesful', response); },
-			// 	getUserTimezoneFailed: function (response) { console.log('getUserTimezoneFailed', response); },
-			// 	fullCalendarInitialized: function () { console.log('fullCalendarInitialized'); },
-			// 	renderCompleted: function () { console.log('renderCompleted'); },
-			// 	showBookingPage: function (slot) { console.log('showBookingPage', slot); },
-			// 	closeBookingPage: function () { console.log('closeBookingPage'); },
-			// 	submitBookingForm: function (values) { console.log('submitBookingForm', values); }
-			// }
-		});
+
+		function paymentLink() {
+			var button = document.querySelector('#submit-button');
+			braintree.dropin.create({
+				// Insert your tokenization key here
+				authorization: 'sandbox_v2t7jt4n_jwqc9t53c84fymbg',
+				container: '#dropin-container',
+				paypal: {
+					flow: 'vault'
+				}
+			}, function (createErr, instance) {
+				button.addEventListener('click', function () {
+					instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+						// When the user clicks on the 'Submit payment' button this code will send the
+						// encrypted payment information in a variable called a payment method nonce
+						$.ajax({
+							type: 'POST',
+							url: '/checkout',
+							data: { 'paymentMethodNonce': payload.nonce }
+						}).done(function (result) {
+							// Tear down the Drop-in UI
+							instance.teardown(function (teardownErr) {
+								if (teardownErr) {
+									console.error('Could not tear down Drop-in UI!');
+								} else {
+									console.info('Drop-in UI has been torn down!');
+									// Remove the 'Submit payment' button
+									$('#submit-button').remove();
+								}
+							});
+
+							if (result.success) {
+								$('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+							} else {
+								console.log(result);
+								$('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+							}
+						});
+					});
+				});
+			});
+		}
+
+		function timeKit() {
+			TimekitBooking().init({
+				// widgetId: '4c860b82-d614-4b7f-b6ea-480e3ac9a568',
+				// widgetId: 'd5cec256-98a0-42dd-b1d0-e933089ec036',
+				// name: $scope.user.name,
+				email: "wnfsocial@gmail.com",
+				apiToken: 'AuArQ3l8kGPuXesqqrsSoh06eVLtnUev',
+				app: 'test-wisnewsfeed-1453',
+				// calendar: '098c1cdc-676b-4f65-941b-c3964770e0e8',			
+				// // avatar: '../misc/avatar-doc.jpg',
+
+				callbacks: {
+					findTimeStarted: function (args) { console.log('findTimeStarted', args); },
+					findTimeSuccessful: function (response) { console.log('findTimeSuccessful', response); },
+					findTimeFailed: function (response) { console.log('findTimeFailed', response); },
+					createBookingStarted: function (args) { console.log('createBookingStarted', args); },
+					createBookingSuccessful: function (response) { console.log('createBookingSuccessful', response); },
+					createBookingFailed: function (response) { console.log('createBookingFailed', response); },
+					getUserTimezoneStarted: function (args) { console.log('getUserTimezoneStarted', args); },
+					getUserTimezoneSuccesful: function (response) { console.log('getUserTimezoneSuccesful', response); },
+					getUserTimezoneFailed: function (response) { console.log('getUserTimezoneFailed', response); },
+					fullCalendarInitialized: function () { console.log('fullCalendarInitialized'); },
+					renderCompleted: function () { console.log('renderCompleted'); },
+					showBookingPage: function (slot) {
+						console.log('showBookingPage', slot);
+						$scope.bookTimeShow = false;
+						$scope.bookingPaymentShow = true;
+						$scope.bookingConfirmShow = false;
+						paymentLink();
+					},
+					closeBookingPage: function () {
+						console.log('closeBookingPage');
+						$scope.bookTimeShow = false;
+						$scope.bookingPaymentShow = true;
+						$scope.bookingConfirmShow = false;
+
+					},
+					submitBookingForm: function (values) { console.log('submitBookingForm', values); }
+				}
+			});
+		}
+
+
+		$timeout(function () {
+			timeKit();
+
+		}, 500);
+
+		init();
 
 
 		function init() {
-
 			availabilityService.getAvail().then(function (response) {
 				$scope.bookingAvail = response.data;
 			})
 		}
 
-		init();
+
 
 		$scope.savetime = {};
 		for (var i in $scope.starttimebooking) {
 			$scope.savetime[$scope.starttimebooking[i].time] = $scope.starttimebooking[i].time;
 		}
 
+		function AtPaymentNext() {
+			$scope.bookTimeShow = false;
+			$scope.bookingPaymentShow = false;
+			$scope.bookingConfirmShow = true;
 
+		}
 		function savestbkus(intimest) {
 
 			$scope.a = intimest;
 
 		}
+
 		function saveallbkst() {
 			var data = {
 				date: $scope.book.date,
