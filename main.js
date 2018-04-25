@@ -185,7 +185,7 @@ global.getCategories = (coach) => {
     let temp_categories
 
     switch (coach) {
-        case '1':
+        case '3':
             temp_categories = [
                 { id: 0, title: 'All', tag: 'all', count: 0 },
                 { id: 1, title: 'Startup Coaching', tag: 'startupcoaching', count: 0 },
@@ -213,7 +213,7 @@ global.getCategories = (coach) => {
                 { id: 8, title: 'Other', tag: 'other', count: 0 },
             ]
             break;
-        case '3':
+        case '1':
             temp_categories = [
                 { id: 0, title: 'All', tag: 'all', count: 0 },
                 { id: 1, title: 'News', tag: 'news', count: 0 },
