@@ -185,7 +185,17 @@ global.getCategories = (coach) => {
     let temp_categories
 
     switch (coach) {
-        case '3':
+        case '1':
+            temp_categories = [
+                { id: 0, title: 'All', tag: 'all', count: 0 },
+                { id: 1, title: 'News', tag: 'news', count: 0 },
+                { id: 2, title: 'Knowledge', tag: 'knowledge', count: 0 },
+                { id: 3, title: 'History', tag: 'history', count: 0 },
+                { id: 4, title: 'Wisdom', tag: 'wisdom', count: 0 }
+
+            ]
+            break;
+        case '2':
             temp_categories = [
                 { id: 0, title: 'All', tag: 'all', count: 0 },
                 { id: 1, title: 'Startup Coaching', tag: 'startupcoaching', count: 0 },
@@ -200,7 +210,7 @@ global.getCategories = (coach) => {
             ]
             break;
 
-        case '2':
+        case '3':
             temp_categories = [
                 { id: 0, title: 'All', tag: 'all', count: 0 },
                 { id: 1, title: 'Consulting', tag: 'consulting', count: 0 },
@@ -213,16 +223,7 @@ global.getCategories = (coach) => {
                 { id: 8, title: 'Other', tag: 'other', count: 0 },
             ]
             break;
-        case '1':
-            temp_categories = [
-                { id: 0, title: 'All', tag: 'all', count: 0 },
-                { id: 1, title: 'News', tag: 'news', count: 0 },
-                { id: 2, title: 'Knowledge', tag: 'knowledge', count: 0 },
-                { id: 3, title: 'History', tag: 'history', count: 0 },
-                { id: 4, title: 'Wisdom', tag: 'wisdom', count: 0 }
 
-            ]
-            break;
 
 
     }

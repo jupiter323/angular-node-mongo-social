@@ -229,9 +229,9 @@ angular.module('er.controllers', [])
 	})
 	.controller('friendsFeedController', function ($scope, $rootScope, fieldsListService, groupedCountriesService, identityService) {
 		$scope.coachType = [
-			{ id: 3, title: 'Coaching' },
-			{ id: 2, title: 'Professional Services' },
-			{ id: 1, title: 'Truth' }
+			{ id: 1, title: 'Truth' },
+			{ id: 2, title: 'Coaching' },
+			{ id: 3, title: 'Professional Services' }
 		]
 
 		$scope.selectedCoachType = $scope.coachType[0];
@@ -387,9 +387,10 @@ angular.module('er.controllers', [])
 	})
 	.controller('homeController', function ($scope, expertService, countriesListService, $rootScope, fieldsListService, groupedCountriesService, identityService) {
 		$scope.coachType = [
-			{ id: 3, title: 'Coaching' },
-			{ id: 2, title: 'Professional Services' },
-			{ id: 1, title: 'Truth' }
+			{ id: 1, title: 'Truth' },
+			{ id: 2, title: 'Coaching' },
+			{ id: 3, title: 'Professional Services' }
+			
 
 		]
 
