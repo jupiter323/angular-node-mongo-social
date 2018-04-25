@@ -387,7 +387,9 @@ angular.module('er.controllers', [])
 	.controller('homeController', function ($scope, expertService, countriesListService, $rootScope, fieldsListService, groupedCountriesService, identityService) {
 		$scope.coachType = [
 			{ id: 1, title: 'Coaching' },
-			{ id: 2, title: 'Professional Services' }
+			{ id: 2, title: 'Professional Services' },
+			{ id: 3, title: 'Truth' },
+		
 		]
 
 		$scope.selectedCoachType = $scope.coachType[0];

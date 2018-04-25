@@ -181,30 +181,47 @@ app.get('/static/cities', (req, res) => {
 })
 
 global.getCategories = (coach) => {
-    return (coach == 1) ?
-        [
-            { id: 0, title: 'All', tag: 'all', count: 0 },
-            { id: 1, title: 'Startup Coaching', tag: 'startupcoaching', count: 0 },
-            { id: 2, title: 'Business Coaching', tag: 'businesscoaching', count: 0 },
-            { id: 3, title: 'Life Coaching', tag: 'lifecoaching', count: 0 },
-            { id: 4, title: 'Career Coaching', tag: 'careercoaching', count: 0 },
-            { id: 5, title: 'Learning Coaching', tag: 'learningcoaching', count: 0 },
-            { id: 6, title: 'Health Coaching', tag: 'healthcoaching', count: 0 },
-            { id: 7, title: 'Immigrant Coaching', tag: 'immigrantcoaching', count: 0 },
-            { id: 8, title: 'Other', tag: 'other', count: 0 },
+    return
+    switch (coach) {
+        case 1:
+            return [
+                { id: 0, title: 'All', tag: 'all', count: 0 },
+                { id: 1, title: 'Startup Coaching', tag: 'startupcoaching', count: 0 },
+                { id: 2, title: 'Business Coaching', tag: 'businesscoaching', count: 0 },
+                { id: 3, title: 'Life Coaching', tag: 'lifecoaching', count: 0 },
+                { id: 4, title: 'Career Coaching', tag: 'careercoaching', count: 0 },
+                { id: 5, title: 'Learning Coaching', tag: 'learningcoaching', count: 0 },
+                { id: 6, title: 'Health Coaching', tag: 'healthcoaching', count: 0 },
+                { id: 7, title: 'Immigrant Coaching', tag: 'immigrantcoaching', count: 0 },
+                { id: 8, title: 'Other', tag: 'other', count: 0 },
 
-        ] :
-        [
-            { id: 0, title: 'All', tag: 'all', count: 0 },
-            { id: 1, title: 'Consulting', tag: 'consulting', count: 0 },
-            { id: 2, title: 'Accounting', tag: 'accounting', count: 0 },
-            { id: 3, title: 'Legal', tag: 'legal', count: 0 },
-            { id: 4, title: 'Technology', tag: 'technology', count: 0 },
-            { id: 5, title: 'Engeneering', tag: 'engeneering', count: 0 },
-            { id: 6, title: 'Recruiting', tag: 'recruiting', count: 0 },
-            { id: 7, title: 'Real Estate', tag: 'real', count: 0 },
-            { id: 8, title: 'Other', tag: 'other', count: 0 },
-        ]
+            ]
+        case 2:
+            return
+            [
+                { id: 0, title: 'All', tag: 'all', count: 0 },
+                { id: 1, title: 'Consulting', tag: 'consulting', count: 0 },
+                { id: 2, title: 'Accounting', tag: 'accounting', count: 0 },
+                { id: 3, title: 'Legal', tag: 'legal', count: 0 },
+                { id: 4, title: 'Technology', tag: 'technology', count: 0 },
+                { id: 5, title: 'Engeneering', tag: 'engeneering', count: 0 },
+                { id: 6, title: 'Recruiting', tag: 'recruiting', count: 0 },
+                { id: 7, title: 'Real Estate', tag: 'real', count: 0 },
+                { id: 8, title: 'Other', tag: 'other', count: 0 },
+            ]
+        case 2:
+            return
+            [
+                { id: 0, title: 'All', tag: 'all', count: 0 },
+                { id: 1, title: 'News', tag: 'news', count: 0 },
+                { id: 2, title: 'Knowledge', tag: 'knowledge', count: 0 },
+                { id: 3, title: 'History', tag: 'history', count: 0 },
+                { id: 4, title: 'Wisdom', tag: 'wisdom', count: 0 }
+
+            ]
+
+
+    }
 }
 
 
@@ -214,7 +231,7 @@ app.get('/static/categories', (req, res) => {
     let country = req.query.country
     let coach = req.query.coach
     let categories = getCategories(coach)
-    
+
 
     // models.Article.getByUsers([], null, [], null, country, null, null, (err, articles) => {
     models.Article.getByUsers({ authors: [], viewer: null, shares: [], category: null, country }, (err, articles) => {
