@@ -230,7 +230,8 @@ angular.module('er.controllers', [])
 	.controller('friendsFeedController', function ($scope, $rootScope, fieldsListService, groupedCountriesService, identityService) {
 		$scope.coachType = [
 			{ id: 1, title: 'Coaching' },
-			{ id: 2, title: 'Professional Services' }
+			{ id: 2, title: 'Professional Services' },
+			{ id: 3, title: 'Truth' }
 		]
 
 		$scope.selectedCoachType = $scope.coachType[0];
@@ -388,8 +389,8 @@ angular.module('er.controllers', [])
 		$scope.coachType = [
 			{ id: 1, title: 'Coaching' },
 			{ id: 2, title: 'Professional Services' },
-			{ id: 3, title: 'Truth' },
-		
+			{ id: 3, title: 'Truth' }
+
 		]
 
 		$scope.selectedCoachType = $scope.coachType[0];

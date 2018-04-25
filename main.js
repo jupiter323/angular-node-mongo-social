@@ -181,10 +181,12 @@ app.get('/static/cities', (req, res) => {
 })
 
 global.getCategories = (coach) => {
-    return
+    console.log('categories', coach)
+    let temp_categories
+
     switch (coach) {
-        case 1:
-            return [
+        case '1':
+            temp_categories = [
                 { id: 0, title: 'All', tag: 'all', count: 0 },
                 { id: 1, title: 'Startup Coaching', tag: 'startupcoaching', count: 0 },
                 { id: 2, title: 'Business Coaching', tag: 'businesscoaching', count: 0 },
@@ -196,9 +198,10 @@ global.getCategories = (coach) => {
                 { id: 8, title: 'Other', tag: 'other', count: 0 },
 
             ]
-        case 2:
-            return
-            [
+            break;
+
+        case '2':
+            temp_categories = [
                 { id: 0, title: 'All', tag: 'all', count: 0 },
                 { id: 1, title: 'Consulting', tag: 'consulting', count: 0 },
                 { id: 2, title: 'Accounting', tag: 'accounting', count: 0 },
@@ -209,9 +212,9 @@ global.getCategories = (coach) => {
                 { id: 7, title: 'Real Estate', tag: 'real', count: 0 },
                 { id: 8, title: 'Other', tag: 'other', count: 0 },
             ]
-        case 2:
-            return
-            [
+            break;
+        case '3':
+            temp_categories = [
                 { id: 0, title: 'All', tag: 'all', count: 0 },
                 { id: 1, title: 'News', tag: 'news', count: 0 },
                 { id: 2, title: 'Knowledge', tag: 'knowledge', count: 0 },
@@ -219,9 +222,11 @@ global.getCategories = (coach) => {
                 { id: 4, title: 'Wisdom', tag: 'wisdom', count: 0 }
 
             ]
+            break;
 
 
     }
+    return temp_categories;
 }
 
 
@@ -230,8 +235,8 @@ app.get('/static/categories', (req, res) => {
 
     let country = req.query.country
     let coach = req.query.coach
-    let categories = getCategories(coach)
 
+    let categories = getCategories(coach)
 
     // models.Article.getByUsers([], null, [], null, country, null, null, (err, articles) => {
     models.Article.getByUsers({ authors: [], viewer: null, shares: [], category: null, country }, (err, articles) => {
