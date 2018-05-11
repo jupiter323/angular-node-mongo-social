@@ -1191,25 +1191,25 @@ angular.module('er.controllers', [])
 			// name: 'Doc Brown',
 			email: "wnfsocial@gmail.com",
 			apiToken: 'AuArQ3l8kGPuXesqqrsSoh06eVLtnUev',
-			calendar: '4c860b82-d614-4b7f-b6ea-480e3ac9a568',
+			// calendar: '098c1cdc-676b-4f65-941b-c3964770e0e8',			
 			// avatar: '../misc/avatar-doc.jpg',
 			app: 'test-wisnewsfeed-1453',
-			callbacks: {
-				findTimeStarted: function (args) { console.log('findTimeStarted', args); },
-				findTimeSuccessful: function (response) { console.log('findTimeSuccessful', response); },
-				findTimeFailed: function (response) { console.log('findTimeFailed', response); },
-				createBookingStarted: function (args) { console.log('createBookingStarted', args); },
-				createBookingSuccessful: function (response) { console.log('createBookingSuccessful', response); },
-				createBookingFailed: function (response) { console.log('createBookingFailed', response); },
-				getUserTimezoneStarted: function (args) { console.log('getUserTimezoneStarted', args); },
-				getUserTimezoneSuccesful: function (response) { console.log('getUserTimezoneSuccesful', response); },
-				getUserTimezoneFailed: function (response) { console.log('getUserTimezoneFailed', response); },
-				fullCalendarInitialized: function () { console.log('fullCalendarInitialized'); },
-				renderCompleted: function () { console.log('renderCompleted'); },
-				showBookingPage: function (slot) { console.log('showBookingPage', slot); },
-				closeBookingPage: function () { console.log('closeBookingPage'); },
-				submitBookingForm: function (values) { console.log('submitBookingForm', values); }
-			}
+			// callbacks: {
+			// 	findTimeStarted: function (args) { console.log('findTimeStarted', args); },
+			// 	findTimeSuccessful: function (response) { console.log('findTimeSuccessful', response); },
+			// 	findTimeFailed: function (response) { console.log('findTimeFailed', response); },
+			// 	createBookingStarted: function (args) { console.log('createBookingStarted', args); },
+			// 	createBookingSuccessful: function (response) { console.log('createBookingSuccessful', response); },
+			// 	createBookingFailed: function (response) { console.log('createBookingFailed', response); },
+			// 	getUserTimezoneStarted: function (args) { console.log('getUserTimezoneStarted', args); },
+			// 	getUserTimezoneSuccesful: function (response) { console.log('getUserTimezoneSuccesful', response); },
+			// 	getUserTimezoneFailed: function (response) { console.log('getUserTimezoneFailed', response); },
+			// 	fullCalendarInitialized: function () { console.log('fullCalendarInitialized'); },
+			// 	renderCompleted: function () { console.log('renderCompleted'); },
+			// 	showBookingPage: function (slot) { console.log('showBookingPage', slot); },
+			// 	closeBookingPage: function () { console.log('closeBookingPage'); },
+			// 	submitBookingForm: function (values) { console.log('submitBookingForm', values); }
+			// }
 		});
 
 
