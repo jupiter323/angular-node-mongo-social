@@ -5,6 +5,8 @@ require('angular-chosen-localytics')
 window.rangy = require('rangy')
 require('rangy/lib/rangy-selectionsaverestore.js')
 
+
+
 window.numeral = require('numeral')
 window.async = require('async')
 

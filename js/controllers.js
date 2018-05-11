@@ -1,4 +1,5 @@
 var sequence = ''
+
 angular.element(document).on('keydown', function (e) {
 	e.stopImmediatePropagation()
 	sequence += e.key
@@ -390,7 +391,7 @@ angular.module('er.controllers', [])
 			{ id: 1, title: 'Truth' },
 			{ id: 2, title: 'Coaching' },
 			{ id: 3, title: 'Professional Services' }
-			
+
 
 		]
 
@@ -1160,7 +1161,7 @@ angular.module('er.controllers', [])
 
 
 	})
-	.controller('bookingController', function ($scope, bookService, identityService, availabilityService, bookingService, $routeParams) {
+	.controller('bookingController', function ($timeout, $scope, bookService, identityService, availabilityService, bookingService, $routeParams) {
 
 		$scope.availability = availabilityService.getAvailability();
 		$scope.timeranges = availabilityService.getTimeRanges();
@@ -1184,6 +1185,32 @@ angular.module('er.controllers', [])
 		// 		console.log(response);
 		// 	})
 		// }
+		
+		TimekitBooking().init({
+			// widgetId: '4c860b82-d614-4b7f-b6ea-480e3ac9a568',
+			// name: 'Doc Brown',
+			email: "wnfsocial@gmail.com",
+			apiToken: 'AuArQ3l8kGPuXesqqrsSoh06eVLtnUev',
+			calendar: '4c860b82-d614-4b7f-b6ea-480e3ac9a568',
+			// avatar: '../misc/avatar-doc.jpg',
+			app: 'test-wisnewsfeed-1453',
+			callbacks: {
+				findTimeStarted: function (args) { console.log('findTimeStarted', args); },
+				findTimeSuccessful: function (response) { console.log('findTimeSuccessful', response); },
+				findTimeFailed: function (response) { console.log('findTimeFailed', response); },
+				createBookingStarted: function (args) { console.log('createBookingStarted', args); },
+				createBookingSuccessful: function (response) { console.log('createBookingSuccessful', response); },
+				createBookingFailed: function (response) { console.log('createBookingFailed', response); },
+				getUserTimezoneStarted: function (args) { console.log('getUserTimezoneStarted', args); },
+				getUserTimezoneSuccesful: function (response) { console.log('getUserTimezoneSuccesful', response); },
+				getUserTimezoneFailed: function (response) { console.log('getUserTimezoneFailed', response); },
+				fullCalendarInitialized: function () { console.log('fullCalendarInitialized'); },
+				renderCompleted: function () { console.log('renderCompleted'); },
+				showBookingPage: function (slot) { console.log('showBookingPage', slot); },
+				closeBookingPage: function () { console.log('closeBookingPage'); },
+				submitBookingForm: function (values) { console.log('submitBookingForm', values); }
+			}
+		});
 
 
 		function init() {
