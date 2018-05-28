@@ -38,17 +38,17 @@
 
                             <label class="lbct" for="Category">Category</label>
                             <div class="slcategoryall">
-                                <div class="slcategory"  ng-repeat="cat in expertCategory">
+                                <div class="slcategory" ng-repeat="cat in expertCategory">
                                     {{cat.title}}
-                                    <button class="btnlsct" ng-click="hidden($index)" >x</button>
+                                    <button class="btnlsct" ng-click="hidden($index)">x</button>
                                 </div>
                                 <div class="addcateall">
                                     <select class="addcate" ng-model="selectedCategory" ng-change="addCategory()">
                                         <option ng-value="$index" ng-repeat="category in categoriesA">{{category.title}}</option>
                                     </select>
-                                </div> 
-                            </div>     
-                                                     
+                                </div>
+                            </div>
+
                         </div>
                         <div class="proof-ed">
                             <div class="input-group">
@@ -79,7 +79,7 @@
                                     <i class="fa fa-plus"></i>
                                     Add more file
                                 </a>
-                            </div> 
+                            </div>
                         </div>
                         <div class="proof-exp">
                             <div class="input-group">
@@ -110,7 +110,7 @@
                                     <i class="fa fa-plus"></i>
                                     Add more file
                                 </a>
-                            </div> 
+                            </div>
                         </div>
                         <div class="proof-owner">
                             <div class="input-group">
@@ -141,7 +141,7 @@
                                     <i class="fa fa-plus"></i>
                                     Add more file
                                 </a>
-                            </div> 
+                            </div>
                         </div>
                         <div class="proof-car">
                             <div class="input-group">
@@ -173,7 +173,7 @@
                                     <i class="fa fa-plus"></i>
                                     Add more file
                                 </a>
-                            </div> 
+                            </div>
                         </div>
                         <div class="proof-ac">
                             <div class="input-group">
@@ -205,7 +205,7 @@
                                     <i class="fa fa-plus"></i>
                                     Add more file
                                 </a>
-                            </div> 
+                            </div>
                         </div>
                         <div class="proof-coa">
                             <div class="input-group">
@@ -245,7 +245,7 @@
                                     <i class="fa fa-plus"></i>
                                     Add more file
                                 </a>
-                            </div> 
+                            </div>
                         </div>
                         <div class="input-group">
 
@@ -261,45 +261,45 @@
                             <p ng-show="signupBetaForm.info.$error.required && signupBetaForm.info.$touched" class="error-block">
                                 This field is required
                             </p>
-                        </div> 
-                        
+                        </div>
+
                         <div class="input-group">
                             <div class="title">Do you have a website or a blog</div>
                             <textarea ng-model="signup.wb" id="info" ng-required="true"></textarea>
                             <p ng-show="signupBetaForm.info.$error.required && signupBetaForm.info.$touched" class="error-block">
                                 This field is required
                             </p>
-                        </div>  
+                        </div>
                         <div class="input-group">
                             <div class="title">Have you helper people before as a coach for free</div>
                             <textarea ng-model="signup.hp" id="info" ng-required="true"></textarea>
                             <p ng-show="signupBetaForm.info.$error.required && signupBetaForm.info.$touched" class="error-block">
                                 This field is required
                             </p>
-                        </div>  
+                        </div>
                         <div class="input-group">
                             <div class="title">What volunteer work have you done in the past </div>
                             <textarea ng-model="signup.vl" id="info" ng-required="true"></textarea>
                             <p ng-show="signupBetaForm.info.$error.required && signupBetaForm.info.$touched" class="error-block">
                                 This field is required
                             </p>
-                        </div>  
+                        </div>
                         <div class="input-group">
                             <div class="title">Give us 3 reference of people you have helped with their contacts? </div>
                             <textarea ng-model="signup.pyh" id="info" ng-required="true"></textarea>
                             <p ng-show="signupBetaForm.info.$error.required && signupBetaForm.info.$touched" class="error-block">
                                 This field is required
                             </p>
-                        </div>   
+                        </div>
                         <div class="input-group " ng-repeat="(i,item) in signup.book">
                             <div class="addbook-bottom">
                                 <label>Title</label>
                                 <input ng-model="item.title" type="text" ng-required="true">
-                            </div>                           
+                            </div>
 
                             <div class="addbook-bottom">
                                 <label>Publication</label>
-                                <input ng-model="item.publication" type="text" ng-required="true">  
+                                <input ng-model="item.publication" type="text" ng-required="true">
                             </div>
                             <div class="addbook-bottom">
                                 <label>Retailstore</label>
@@ -307,12 +307,12 @@
                             </div>
                             <div class="addbook-bottom  ">
                                 <label>Author</label>
-                                <div class="slauthor" ng-repeat="aut in item.author track by $index">{{aut}}   
+                                <div class="slauthor" ng-repeat="aut in item.author track by $index">{{aut}}
                                     <button class="btnlsct" ng-click="removeAuthor(i, $index)">x</button>
                                 </div>
-                                <input ng-change="myFunc(i,item)" ng-model="item.authersearch" type="text" ng-required="true" >
-                            </div>     
-                            <div class="author-tb" ng-hide="hiddenAuthor[i]"> 
+                                <input ng-change="myFunc(i,item)" ng-model="item.authersearch" type="text" ng-required="true">
+                            </div>
+                            <div class="author-tb" ng-hide="hiddenAuthor[i]">
                                 <ul>
                                     <li ng-repeat="ite in authorresults" ng-click="addauthor(i, ite.username)">
                                         <div class="authorav">
@@ -322,16 +322,16 @@
                                             <div>{{ite.name}}</div>
                                             <div>@{{ite.username}}</div>
                                         </div>
-                                    </li>                                      
+                                    </li>
                                 </ul>
                             </div>
-                        </div> 
+                        </div>
                         <div class="input-group">
                             <a href="javascript:void(0);" class="add-more" ng-hide='signup.book.length>5' ng-click="addMoreBooks()">
                                 <i class="fa fa-plus"></i>
                                 Add more books
                             </a>
-                        </div> 
+                        </div>
 
                     </div>
 
@@ -366,10 +366,10 @@
                             </a>
                         </div>
                     </div> -->
-                   
+
 
                     <!-- CERTIFICATES GROUP -->
-                   
+
 
                     <!-- CONTACT INFORMATION GROUP -->
                     <!-- <div class="group">
@@ -427,19 +427,19 @@
                     </div> -->
 
                     <!--  ADDITIONAL FILES GROUP -->
-                <div class="group">                        
-                    <div class="input-group">
-                        <div ng-class="submitClass">
-                            {{submitResult}}
+                    <div class="group">
+                        <div class="input-group">
+                            <div ng-class="submitClass">
+                                {{submitResult}}
+                            </div>
                         </div>
-                    </div>
-                    <div class="submit-block">
-                        <button class="action-button" ng-class="!signupBetaForm.$valid && 'disabled'" ng-click="sendForm()" ng-disabled="!signupBetaForm.$valid">Finish registration</button>
+                        <div class="submit-block">
+                            <button class="action-button" ng-class="!signupBetaForm.$valid && 'disabled'" ng-click="sendForm()" ng-disabled="!signupBetaForm.$valid">Finish registration</button>
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </form>

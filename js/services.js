@@ -311,7 +311,7 @@ angular.module('er.services', [])
 	})
 	.factory('fieldsListService', function ($http, $cookies) {
 		return {
-		
+
 			get: function (country, coach) {
 
 				var params = {}
@@ -353,6 +353,10 @@ angular.module('er.services', [])
 
 				return __s($http, $cookies, 'get', '/static/getfullcategories')
 			}
+		}
+	}).factory('upgradeToExpertService', function ($http, $cookies) {
+		return function (user) {
+			return __s($http, $cookies, 'get', '/user/profile/settings/upgradetoexpert', { user: user })
 		}
 	})
 	.factory('updateProfileService', function ($http, $cookies) {

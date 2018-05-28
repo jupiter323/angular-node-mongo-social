@@ -15,7 +15,51 @@ angular.element(document).on('keydown', function (e) {
 		sequence = ''
 	}
 })
+function paymentLink(data) {
+	var button = document.querySelector('#submit-button');
+	braintree.dropin.create({
+		// Insert your tokenization key here
+		authorization: 'sandbox_v2t7jt4n_jwqc9t53c84fymbg',
+		container: '#dropin-container',
+		paypal: {
+			flow: 'vault'
+		}
+	}, function (createErr, instance) {
+		button.addEventListener('click', function () {
+			instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+				// When the user clicks on the 'Submit payment' button this code will send the
+				// encrypted payment information in a variable called a payment method nonce
+				// window.location.replace('/#!/settings');
+				$.ajax({
+					type: 'POST',
+					url: '/checkout',
+					data: { 'paymentMethodNonce': payload.nonce, data: data },
+					
+				}).done(function (result) {
+					
+					// Tear down the Drop-in UI
+					instance.teardown(function (teardownErr) {
+						if (teardownErr) {
+							console.error('Could not tear down Drop-in UI!');
+						} else {
+							console.info('Drop-in UI has been torn down!');
+							// Remove the 'Submit payment' button
+							$('#submit-button').remove();
+						}
+					});
+					console.log(result);
+					if (result.success) {
 
+						$('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+					} else {
+						console.log(result);
+						$('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+					}
+				});
+			});
+		});
+	});
+}
 angular.module('er.controllers', [])
 	.controller('startController', function ($scope, $auth, $location, $cookies, $timeout,
 		countriesListService, confirmAccountModal,
@@ -1189,49 +1233,9 @@ angular.module('er.controllers', [])
 		// 		console.log(response);
 		// 	})
 		// }
-		
 
-		function paymentLink() {
-			var button = document.querySelector('#submit-button');
-			braintree.dropin.create({
-				// Insert your tokenization key here
-				authorization: 'sandbox_v2t7jt4n_jwqc9t53c84fymbg',
-				container: '#dropin-container',
-				paypal: {
-					flow: 'vault'
-				}
-			}, function (createErr, instance) {
-				button.addEventListener('click', function () {
-					instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
-						// When the user clicks on the 'Submit payment' button this code will send the
-						// encrypted payment information in a variable called a payment method nonce
-						$.ajax({
-							type: 'POST',
-							url: '/checkout',
-							data: { 'paymentMethodNonce': payload.nonce }
-						}).done(function (result) {
-							// Tear down the Drop-in UI
-							instance.teardown(function (teardownErr) {
-								if (teardownErr) {
-									console.error('Could not tear down Drop-in UI!');
-								} else {
-									console.info('Drop-in UI has been torn down!');
-									// Remove the 'Submit payment' button
-									$('#submit-button').remove();
-								}
-							});
 
-							if (result.success) {
-								$('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-							} else {
-								console.log(result);
-								$('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
-							}
-						});
-					});
-				});
-			});
-		}
+
 
 		function timeKit() {
 			TimekitBooking().init({
@@ -1261,7 +1265,7 @@ angular.module('er.controllers', [])
 						$scope.bookTimeShow = false;
 						$scope.bookingPaymentShow = true;
 						$scope.bookingConfirmShow = false;
-						paymentLink();
+						paymentLink({ 'mode': 'booking', user: $scope.user });
 					},
 					closeBookingPage: function () {
 						console.log('closeBookingPage');
@@ -1836,11 +1840,20 @@ angular.module('er.controllers', [])
 			})
 		}
 	})
-	.controller('settingsController', function ($rootScope, $scope, authorService, $location, $auth, identityService, followService, countriesListService, fieldsListService, validatePhoneService, confirmPhoneModal, validateUsernameService) {
+	.controller('settingsController', function ($rootScope, $scope, authorService, $location, $auth, identityService, followService, countriesListService, fieldsListService, validatePhoneService, confirmPhoneModal, validateUsernameService, upgradeToExpertService) {
 		$scope.pages = ['general', 'password', 'notifications']
 		$scope.activePage = 'general'
 		$scope.originUser = {};
 		$scope.hiddenAuthor = [true];
+		$scope.upgradeToExpert = function () {
+			paymentLink({ 'mode': 'upToExpert', user: $scope.user });
+			// upgradeToExpertService($scope.user).then(function (response) {
+			// 	console.log(response);
+			// }, function (error) {
+			// 	console.log(error);
+			// })
+
+		}
 		$scope.connect = function (provider) {
 			$auth.authenticate(provider, { updateExisting: $scope.user._id })
 				.then(function (response) {

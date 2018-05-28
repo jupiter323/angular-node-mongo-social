@@ -2,21 +2,24 @@
 var express = require('express');
 var router = express.Router();
 var braintree = require('braintree');
-
+const config = require('./../config.js');
+const MODE = {
+    booking: {
+        amount: '100.00'
+    },
+    upToExpert: {
+        amount: '99.00'
+    }
+};
 router.post('/', function (req, res, next) {
-    var gateway = braintree.connect({
-        environment: braintree.Environment.Sandbox,
-        // Use your own credentials from the sandbox Control Panel here
-        merchantId: 'jwqc9t53c84fymbg',
-        publicKey: 'z5vn8v4vdc472t44',
-        privateKey: 'de270ad37567df170e6d48c20e6778fe'
-    });
+    var gateway = braintree.connect(config.BRAINTREE);
 
+    var amount = MODE[req.body.data.mode].amount;
     // Use the payment method nonce here
     var nonceFromTheClient = req.body.paymentMethodNonce;
-    // Create a new transaction for $10
+    // Create a new transaction for mode
     var newTransaction = gateway.transaction.sale({
-        amount: '100.00',
+        amount: amount,
         paymentMethodNonce: nonceFromTheClient,
         options: {
             // This option requests the funds from the transaction
@@ -25,11 +28,38 @@ router.post('/', function (req, res, next) {
         }
     }, function (error, result) {
         if (result) {
-            res.send(result);
+            switch (req.body.data.mode) {
+                case 'booking':
+                    booking();
+                    break;
+                case 'upToExpert':
+                    upToExpert(req.body.data.user).then(() => {
+                        res.send({ success: true })
+                    }).catch(() => {
+                        res.status(400).send({ message: 'Unable to update user' })
+
+                    });
+                    break;
+            }
         } else {
             res.status(500).send(error);
         }
     });
 });
+function booking() {
+
+}
+function upToExpert(user) {
+    var promise = new Promise(function (resolve, reject) {
+        models.User.upgradeToExpert(user._id, (err, result) => {
+            if (err) reject;
+            else resolve
+
+        })
+
+    })
+    return promise;
+
+}
 
 module.exports = router;

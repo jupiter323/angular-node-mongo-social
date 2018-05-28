@@ -1,9 +1,9 @@
-const 	express = require('express'),
-		multer = require('multer'),
-		async = require('async'),
-		path = require('path'),
-		fs = require('fs'),
-		randomString = require('random-string')
+const express = require('express'),
+	multer = require('multer'),
+	async = require('async'),
+	path = require('path'),
+	fs = require('fs'),
+	randomString = require('random-string')
 
 const config = require('./../config')
 
@@ -16,14 +16,14 @@ let tempUploads = multer({
 })
 
 ws.WSEmitter.on('disconnect', (userId) => {
-	models.User.updateLastVisit(userId, () => {})
+	models.User.updateLastVisit(userId, () => { })
 })
 
 let router = express.Router()
 
 router.use(function (err, req, res, next) {
 	if (err.code === 'LIMIT_FILE_SIZE') {
-		return res.status(400).send({message: `Can't upload file: ${err.message}`})
+		return res.status(400).send({ message: `Can't upload file: ${err.message}` })
 	} else {
 		next()
 	}
@@ -35,7 +35,7 @@ router.use((req, res, next) => {
 	}
 
 	if (!req.headers.authorization) {
-		res.status(400).send({message: 'Invalid token'})
+		res.status(400).send({ message: 'Invalid token' })
 	} else {
 		req.access_token = req.headers.authorization.split(' ')[1]
 
@@ -57,7 +57,7 @@ router.get('/familiarexperts', (req, res) => {
 			})
 
 			models.User.getRandomUsers(req.user._id, {
-				$and: [{_id: {$nin: mutedUsersIds}}, {_id: {$ne: req.user._id}}],
+				$and: [{ _id: { $nin: mutedUsersIds } }, { _id: { $ne: req.user._id } }],
 				role: 'expert'
 			}, 3, next)
 		},
@@ -103,9 +103,9 @@ router.post('/profile/edit/avatar', tempUploads.single('file'), (req, res) => {
 		fs.renameSync(path.join(__root, tempPath), path.join(__root, 'uploads', 'avatars', newFilename))
 
 		models.User.setAvatar(user._id, path.join('uploads', 'avatars', newFilename), () => {
-			res.send({ok: true})
+			res.send({ ok: true })
 		})
-	} else res.status(400).send({message: 'Invalid token'})
+	} else res.status(400).send({ message: 'Invalid token' })
 })
 
 router.post('/profile/edit/wallpaper', tempUploads.single('file'), (req, res) => {
@@ -129,9 +129,9 @@ router.post('/profile/edit/wallpaper', tempUploads.single('file'), (req, res) =>
 		fs.renameSync(path.join(__root, tempPath), path.join(__root, 'uploads', 'wallpapers', newFilename))
 
 		models.User.setWallpaper(user._id, path.join('uploads', 'wallpapers', newFilename), () => {
-			res.send({ok: true})
+			res.send({ ok: true })
 		})
-	} else res.status(400).send({message: 'Invalid token'})
+	} else res.status(400).send({ message: 'Invalid token' })
 })
 
 router.post('/profile/edit/addcertificate', tempUploads.single('file'), (req, res) => {
@@ -146,14 +146,14 @@ router.post('/profile/edit/addcertificate', tempUploads.single('file'), (req, re
 		fs.renameSync(path.join(__root, tempPath), path.join(__root, 'uploads', 'certificates', newFilename))
 
 		models.User.addCertificate(user._id, req.file.originalname, path.join('uploads', 'certificates', newFilename), () => {
-			res.send({ok: true})
+			res.send({ ok: true })
 		})
-	} else res.status(400).send({message: 'Invalid token'})
+	} else res.status(400).send({ message: 'Invalid token' })
 })
 
 router.post('/profile/edit/removecertificate', tempUploads.single('file'), (req, res) => {
 	let user = req.user
-	let {filename} = req.body
+	let { filename } = req.body
 
 	if (user) {
 		models.User.getCertificateByName(user._id, filename, (cert) => {
@@ -165,13 +165,13 @@ router.post('/profile/edit/removecertificate', tempUploads.single('file'), (req,
 					console.log(e)
 				}
 				models.User.removeCertificateByName(user._id, filename, () => {
-					res.send({ok: true})
+					res.send({ ok: true })
 				})
 			} else {
-				res.status(400).send({message: 'Certificate not found'})
+				res.status(400).send({ message: 'Certificate not found' })
 			}
 		})
-	} else res.status(400).send({message: 'Invalid token'})
+	} else res.status(400).send({ message: 'Invalid token' })
 })
 
 router.post('/profile/edit/adddownload', tempUploads.single('file'), (req, res) => {
@@ -186,14 +186,14 @@ router.post('/profile/edit/adddownload', tempUploads.single('file'), (req, res) 
 		fs.renameSync(path.join(__root, tempPath), path.join(__root, 'uploads', 'downloads', newFilename))
 
 		models.User.addDownload(user._id, req.file.originalname, path.join('uploads', 'downloads', newFilename), () => {
-			res.send({ok: true})
+			res.send({ ok: true })
 		})
-	} else res.status(400).send({message: 'Invalid token'})
+	} else res.status(400).send({ message: 'Invalid token' })
 })
 
 router.post('/profile/edit/removedownload', (req, res) => {
 	let user = req.user
-	let {token, filename} = req.body
+	let { token, filename } = req.body
 
 	if (user) {
 		models.User.getDownloadByName(user._id, filename, (file) => {
@@ -205,13 +205,13 @@ router.post('/profile/edit/removedownload', (req, res) => {
 					console.log(e)
 				}
 				models.User.removeDownloadByName(user._id, filename, () => {
-					res.send({ok: true})
+					res.send({ ok: true })
 				})
 			} else {
-				res.status(400).send({message: 'Download not found'})
+				res.status(400).send({ message: 'Download not found' })
 			}
 		})
-	} else res.status(400).send({message: 'Invalid token'})
+	} else res.status(400).send({ message: 'Invalid token' })
 })
 
 router.post('/profile/edit/settings', (req, res) => {
@@ -219,48 +219,48 @@ router.post('/profile/edit/settings', (req, res) => {
 	let book = req.body.book;
 	// console.log('dasdasd',req.body.boo)
 	console.log(book)
-	let {username, name, email, phone, country, city, gender, field, language} = req.body
+	let { username, name, email, phone, country, city, gender, field, language } = req.body
 	// console.log('dasdasd',req.body)
 	if (user) {
-		models.User.updateSettings(book, user._id, name, email, phone, country, city, gender, field, language, username , () => {
-			res.send({ok: true})
+		models.User.updateSettings(book, user._id, name, email, phone, country, city, gender, field, language, username, () => {
+			res.send({ ok: true })
 		})
-	} else res.status(400).send({message: 'Invalid token'})
+	} else res.status(400).send({ message: 'Invalid token' })
 })
 
 router.post('/profile/edit/profile', tempUploads.single('file'), (req, res) => {
 	let user = req.user
-	let {token, contact, experience, intro, name, title} = req.body
+	let { token, contact, experience, intro, name, title } = req.body
 
 	if (user) {
 		models.User.updateProfile(user._id, contact, experience, intro, name, title, () => {
-			res.send({ok: true})
+			res.send({ ok: true })
 		})
-	} else res.status(400).send({message: 'Invalid token'})
+	} else res.status(400).send({ message: 'Invalid token' })
 })
 
 router.post('/profile/settings/isPasswordValid', (req, res) => {
 	let user = req.user
-	let {password} = req.body
+	let { password } = req.body
 
 	models.User.isPasswordValid(user._id, password, (valid) => {
-		res.send({valid})
+		res.send({ valid })
 	})
 })
 
 router.post('/profile/settings/setPassword', (req, res) => {
 	let user = req.user
-	let {oldPassword, newPassword} = req.body
+	let { oldPassword, newPassword } = req.body
 
 	models.User.updateOldPassword(user._id, oldPassword, newPassword, (err, result) => {
-		if (!err) return res.send({ok: true})
+		if (!err) return res.send({ ok: true })
 		else return res.status(400).send(err)
 	})
 })
 
 router.post('/profile/settings/disconnectsocial', (req, res) => {
 	let user = req.user
-	let {provider} = req.body,
+	let { provider } = req.body,
 		providerName = `${provider}Name`
 
 	let updates = {}
@@ -268,24 +268,33 @@ router.post('/profile/settings/disconnectsocial', (req, res) => {
 	updates[providerName] = undefined
 
 	models.User.update(user._id, updates, (err, result) => {
-		if (err) return res.status(400).send({message: 'Unable to update user'})
-		else return res.send({ok: true})
+		if (err) return res.status(400).send({ message: 'Unable to update user' })
+		else return res.send({ ok: true })
 	})
 })
 
 router.post('/profile/settings/notifications', (req, res) => {
 	let user = req.user
-	let {expert, journalist, liked, reacted} = req.body
+	let { expert, journalist, liked, reacted } = req.body
 
 	models.User.updateNotificationsSettings(user._id, expert, journalist, liked, reacted, (err, result) => {
-		if (err) return res.status(400).send({message: 'Unable to update user'})
-		else return res.send({ok: true})
+		if (err) return res.status(400).send({ message: 'Unable to update user' })
+		else return res.send({ ok: true })
 	})
 })
+router.get('/profile/settings/upgradetoexpert', (req, res) => {
 
+	let user = req.user
+
+	models.User.upgradeToExpert(user._id, (err, result) => {
+		if (err) return res.status(400).send({ message: 'Unable to update user' })
+		else return res.send({ ok: true })
+
+	})
+})
 router.get('/categories', (req, res) => {
 	let user = req.user
-	let {country} = req.query
+	let { country } = req.query
 
 	let categories = getCategories()
 
@@ -299,14 +308,14 @@ router.get('/categories', (req, res) => {
 		if (authors.length > 0) {
 			authors.push(user._id)
 		}
-        // getByUsers: (authors, viewer, shares, category, country, start = 0, limit = 4, callback) => {
+		// getByUsers: (authors, viewer, shares, category, country, start = 0, limit = 4, callback) => {
 
 		// models.Article.getByUsers(authors, null, [], null, null, null, null, (err, articles) => {
 		models.Article.getByUsers({
 			authors,
-            viewer: null,
+			viewer: null,
 			shares: [],
-            category: null,
+			category: null,
 			country: null,
 			start: null,
 			limit: null
@@ -349,7 +358,7 @@ router.post('/block', (req, res) => {
 
 	models.BlockedUser.block(blocked, user._id, (err, result) => {
 		if (err) res.status(400).send(err)
-		else res.send({ok: true})
+		else res.send({ ok: true })
 	})
 })
 
@@ -359,38 +368,38 @@ router.post('/unblock', (req, res) => {
 
 	models.BlockedUser.unblock(blocked, user._id, (err, result) => {
 		if (err) res.status(400).send(err)
-		else res.send({ok: true})
+		else res.send({ ok: true })
 	})
 })
 
 router.post('/report', (req, res) => {
 	let user = req.user
-	let {article} = req.body
+	let { article } = req.body
 
-    async.parallel({
-        report: cb => {
-            models.Report.report(article, user._id, (err, result) => cb(err))
-        },
-        hide: cb => {
-            models.HiddenArticle.hide(article, req.user._id, (err, result) => cb(err))
-        },
+	async.parallel({
+		report: cb => {
+			models.Report.report(article, user._id, (err, result) => cb(err))
+		},
+		hide: cb => {
+			models.HiddenArticle.hide(article, req.user._id, (err, result) => cb(err))
+		},
 		notify: cb => {
-            //TODO: Make sure that req.headers.host and etc is sutable for this case
-            mailgun.sendText(`service@${config.MAILGUN.SANDBOX_DOMAIN}`, config.ADMIN_EMAILS,
-                `ER: Article reported`,
-                `Article ${req.protocol}://${req.headers.host}/#!/article/${article} has been reported by ${user.name}(${user.email})`,
-                err => cb(err)
-            )
+			//TODO: Make sure that req.headers.host and etc is sutable for this case
+			mailgun.sendText(`service@${config.MAILGUN.SANDBOX_DOMAIN}`, config.ADMIN_EMAILS,
+				`ER: Article reported`,
+				`Article ${req.protocol}://${req.headers.host}/#!/article/${article} has been reported by ${user.name}(${user.email})`,
+				err => cb(err)
+			)
 		}
-    }, (err, result) => {
-        if (err) res.status(400).send(err)
-        else res.send({ok: true})
-    })
+	}, (err, result) => {
+		if (err) res.status(400).send(err)
+		else res.send({ ok: true })
+	})
 
 })
 
 router.get('/images', (req, res) => {
-	let {user} = req.query
+	let { user } = req.query
 
 	models.Image.imagesOfUser(user, req.user._id, (err, result) => {
 		if (err) res.status(400).send(err)
@@ -400,7 +409,7 @@ router.get('/images', (req, res) => {
 
 router.get('/multisearch', (req, res) => {
 	let user = req.user
-	let {q} = req.query
+	let { q } = req.query
 
 	q = decodeURIComponent(q)
 
@@ -414,18 +423,18 @@ router.get('/multisearch', (req, res) => {
 			models.Article.searchForTags(user, '$', _q, 5, next)
 		},
 		countries: (next) => {
-            let _q = q
-            if (_q[0] == '!') _q = _q.substr(1)
-            else return next()
-            models.Article.searchForTags(user, '!', _q, 5, next)
+			let _q = q
+			if (_q[0] == '!') _q = _q.substr(1)
+			else return next()
+			models.Article.searchForTags(user, '!', _q, 5, next)
 		},
-        nicknames: (next) => {
-            let _q = q
-            if (_q[0] == '@') _q = _q.substr(1)
-            else return next()
+		nicknames: (next) => {
+			let _q = q
+			if (_q[0] == '@') _q = _q.substr(1)
+			else return next()
 
-            models.User.search(user, _q, null, 0, 5, true, next)
-        },
+			models.User.search(user, _q, null, 0, 5, true, next)
+		},
 		tags: (next) => {
 			let _q = q
 
@@ -444,7 +453,7 @@ router.get('/multisearch', (req, res) => {
 })
 
 router.get('/searchusers', (req, res) => {
-	let {q, role, start, limit} = req.query
+	let { q, role, start, limit } = req.query
 
 	models.User.search(req.user._id, q, role, start, limit, false, (err, results) => {
 		if (err) res.status(400).send(err)
@@ -469,7 +478,7 @@ router.post('/invite/twitter', (req, res) => {
 
 		// return res.send(list)
 
-		models.User.findByQuery({twitter: {$in: twitterIds}}, (err, users) => {
+		models.User.findByQuery({ twitter: { $in: twitterIds } }, (err, users) => {
 			if (err) res.status(400).send(err)
 			else res.send(users)
 		})
@@ -477,47 +486,47 @@ router.post('/invite/twitter', (req, res) => {
 })
 
 router.get('/isonline', (req, res) => {
-	let {user} = req.query
+	let { user } = req.query
 
 	res.send(ws.isOnline(user))
 })
 
 router.get('/approve', (req, res) => {
-	let {id} = req.query
-    let password = randomString({length: 8}).toUpperCase()
+	let { id } = req.query
+	let password = randomString({ length: 8 }).toUpperCase()
 
 	console.log(id)
 
 	models.User.updatePassword(id, password, (err, user) => {
-        mailgun.sendText(`service@${config.MAILGUN.SANDBOX_DOMAIN}`, [user.email],
-            `Your WNF profile was approved!`,
-            `Congratulations! Your WiseNewsFeed profile was approved!\n
+		mailgun.sendText(`service@${config.MAILGUN.SANDBOX_DOMAIN}`, [user.email],
+			`Your WNF profile was approved!`,
+			`Congratulations! Your WiseNewsFeed profile was approved!\n
 User ${user.email} and ${password} to access ${req.protocol}://${req.headers.host}/`,
-            err => res.send(err)
-        )
+			err => res.send(err)
+		)
 	})
 })
 
 router.get('/decline', (req, res) => {
-	let {id} = req.query
+	let { id } = req.query
 
 	models.User.findById(id, (err, user) => {
 		if (!user) {
-			return res.send({message: 'User not found'})
+			return res.send({ message: 'User not found' })
 		}
 
 		mailgun.sendText(`service@${config.MAILGUN.SANDBOX_DOMAIN}`, [user.email],
-            `Your WNF profile was declined`,
-            `Unfortunately, your WiseNewsFeed profile was declined.`,
-            err => res.send(err)
-        )
+			`Your WNF profile was declined`,
+			`Unfortunately, your WiseNewsFeed profile was declined.`,
+			err => res.send(err)
+		)
 	})
 })
 
 router.get('/upgrade', (req, res) => {
-	let {id, role} = req.query
+	let { id, role } = req.query
 
-	models.User.update(id, {role}, (err, user) => {
+	models.User.update(id, { role }, (err, user) => {
 		if (err) res.status(400).send(err)
 		else {
 			mailgun.sendText(`service@${config.MAILGUN.SANDBOX_DOMAIN}`, [user.email],
@@ -525,7 +534,7 @@ router.get('/upgrade', (req, res) => {
 				`Congratulations! Your WiseNewsFeed profile was upgraded to ${role}!`,
 				err => res.send(err)
 			)
-        }
+		}
 	})
 })
 

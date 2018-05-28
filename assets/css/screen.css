@@ -4523,7 +4523,7 @@ button.small-icon {
 #landing-wrapper #content-wrapper .content .auth-blocks > div form .field-tip ul li:before, #landing-wrapper #content-wrapper .content .auth-blocks > div form .field-tip ul li::before {
   position: absolute;
   margin-left: -10px;
-  content: 'ÔÇó';
+  content: 'ΓÇó';
 }
 #landing-wrapper #content-wrapper .content .auth-blocks > div form .chosen-container {
   margin-top: -12px;

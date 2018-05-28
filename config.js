@@ -1,3 +1,4 @@
+var braintree = require('braintree');
 module.exports = {
 	ADMIN_EMAILS: ['lhoang295@gmail.com', 'nguyenchithanh10101992@gmail.com'],
 	FACEBOOK_SECRET: 'b0f9e9d9ebaecb3d79e3f2f4c31305b9',
@@ -93,5 +94,15 @@ module.exports = {
 			NO_SHARE: 5,
 		},
 		NEGATE_MIN_POINTS: 0,
+	},
+	BRAINTREE: {
+
+		environment: braintree.Environment.Sandbox,
+		// Use your own credentials from the sandbox Control Panel here
+		merchantId: 'jwqc9t53c84fymbg',
+		publicKey: 'z5vn8v4vdc472t44',
+		privateKey: 'de270ad37567df170e6d48c20e6778fe'
+
 	}
+
 }

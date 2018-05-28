@@ -1,56 +1,56 @@
 const async = require('async')
 
-var Model = function(mongoose) {
+var Model = function (mongoose) {
 	const sha1 = require('sha1')
 
 	var schema = new mongoose.Schema({
 		ObjectId: mongoose.Schema.ObjectId,
-		facebook		: String,
-		linkedin		: String,
-		twitter			: String,
-		facebookName	: String,
-		linkedinName	: String,
-		twitterName		: String,
-		avatar			: {type: String, default: '/assets/images/avatar_placeholder.png'},
-		wallpaper		: String,
-		name			: String,
-        nickname		: String,
-		intro			: String,
-		username 		: String,
-		email			: String,
-		password		: {type: String, select: false},
-		phone			: String,
-		country			: String,
-		city 			: String,
-		categories      : String,
-		gender			: String,
-		position		: String,
-		company 		: String,
-		field			: String,
-		role 			: String,
-		title 			: String,
-		educa           : String,
-		expc            : String,
-		own             : String,
-		car             : String,
-		achi            : String,
-		consi           : String,
-		cy              : String,
-		expy            : String,
-		wb              : String,
-		hp              : String,
-		vl              : String,
-		pyh             : String,
-		cerci           : String,
-		ywab            : String,
-		yob             : String,
-		cibw            : String,
-		author          : String,
-		book:[{
-			title:String,
-			publication:String,
-	        author:[],
-	        retailstore:String,
+		facebook: String,
+		linkedin: String,
+		twitter: String,
+		facebookName: String,
+		linkedinName: String,
+		twitterName: String,
+		avatar: { type: String, default: '/assets/images/avatar_placeholder.png' },
+		wallpaper: String,
+		name: String,
+		nickname: String,
+		intro: String,
+		username: String,
+		email: String,
+		password: { type: String, select: false },
+		phone: String,
+		country: String,
+		city: String,
+		categories: String,
+		gender: String,
+		position: String,
+		company: String,
+		field: String,
+		role: String,
+		title: String,
+		educa: String,
+		expc: String,
+		own: String,
+		car: String,
+		achi: String,
+		consi: String,
+		cy: String,
+		expy: String,
+		wb: String,
+		hp: String,
+		vl: String,
+		pyh: String,
+		cerci: String,
+		ywab: String,
+		yob: String,
+		cibw: String,
+		author: String,
+		book: [{
+			title: String,
+			publication: String,
+			author: [],
+			retailstore: String,
 		}],
 		isBlocked: {
 			type: Boolean,
@@ -60,7 +60,7 @@ var Model = function(mongoose) {
 			type: Boolean,
 			default: false
 		},
-		contact 		: {
+		contact: {
 			email: String,
 			phone: String,
 			skype: String,
@@ -68,49 +68,49 @@ var Model = function(mongoose) {
 			fb: String,
 		},
 		certificates: [{
-			filename	: String,
-			filepath	: String,
+			filename: String,
+			filepath: String,
 		}],
 		certificatesB: [{
-			filename	: String,
-			filepath	: String,
+			filename: String,
+			filepath: String,
 		}],
 		certificatesCa: [{
-			filename	: String,
-			filepath	: String,
+			filename: String,
+			filepath: String,
 		}],
 		certificatesE: [{
-			filename	: String,
-			filepath	: String,
+			filename: String,
+			filepath: String,
 		}],
 		certificatesAc: [{
-			filename	: String,
-			filepath	: String,
+			filename: String,
+			filepath: String,
 		}],
 		certificatesC: [{
-			filename	: String,
-			filepath	: String,
+			filename: String,
+			filepath: String,
 		}],
 		downloads: [{
-			filename	: String,
-			filepath	: String,
+			filename: String,
+			filepath: String,
 		}],
-		experience	: [{
-			time		: String,
-			place		: String,
-			description	: String,
+		experience: [{
+			time: String,
+			place: String,
+			description: String,
 		}],
 		notifications: {
-			expert 		: {type: Boolean, default: true},
-			journalist 	: {type: Boolean, default: true},
-			liked 		: {type: Boolean, default: true},
-			reacted 	: {type: Boolean, default: true},
+			expert: { type: Boolean, default: true },
+			journalist: { type: Boolean, default: true },
+			liked: { type: Boolean, default: true },
+			reacted: { type: Boolean, default: true },
 		},
-		color 			: {type: String, default: 'bronze'},
-		xp				: {type: Number, default: 0},
-		xpInfo 			: {type: Object, default: {a: 1}},
-		nextXpCronDate		: Date,
-		lastVisit		: Date,
+		color: { type: String, default: 'bronze' },
+		xp: { type: Number, default: 0 },
+		xpInfo: { type: Object, default: { a: 1 } },
+		nextXpCronDate: Date,
+		lastVisit: Date,
 	})
 
 	var getLevelInfoByXP = (xp) => {
@@ -123,8 +123,8 @@ var Model = function(mongoose) {
 			prevXpPassed = 0
 
 		while (xpPassed <= xp) {
-			if (badge < 10) levelScore += ((badge+1) * 10);
-			else levelScore += ((badge+5) * 10);
+			if (badge < 10) levelScore += ((badge + 1) * 10);
+			else levelScore += ((badge + 5) * 10);
 			xpPassed += levelScore;
 			level++;
 			badgeLevel++;
@@ -153,7 +153,7 @@ var Model = function(mongoose) {
 		if (user) {
 			user.xpInfo = getLevelInfoByXP(user.xp)
 
-			if (user.xpInfo.level >0 && user.xpInfo.level < 30) {
+			if (user.xpInfo.level > 0 && user.xpInfo.level < 30) {
 				user.color = 'bronze'
 			} else if (user.xpInfo.level >= 30 && user.xpInfo.level < 60) {
 				user.color = 'silver'
@@ -171,16 +171,16 @@ var Model = function(mongoose) {
 	return {
 		setXpInfo: setXpInfo,
 
-		removeUserById : (_id, callback) => {
+		removeUserById: (_id, callback) => {
 			_id = MOI(_id)
 
-			Model.findOneAndRemove({_id},callback);
+			Model.findOneAndRemove({ _id }, callback);
 		},
 
 		blockUserById: (_id, callback) => {
 			_id = MOI(_id)
 
-			Model.findOne({_id}, (err, user) => {
+			Model.findOne({ _id }, (err, user) => {
 				user.isBlocked = true;
 				user.save(callback);
 			})
@@ -188,7 +188,7 @@ var Model = function(mongoose) {
 		unblockUserById: (_id, callback) => {
 			_id = MOI(_id)
 
-			Model.findOne({_id}, (err, user) => {
+			Model.findOne({ _id }, (err, user) => {
 				user.isBlocked = false;
 				user.save(callback);
 			})
@@ -196,7 +196,7 @@ var Model = function(mongoose) {
 		updateLastVisit: (_id, callback) => {
 			_id = MOI(_id)
 
-			Model.findOne({_id}, (err, user) => {
+			Model.findOne({ _id }, (err, user) => {
 				user.lastVisit = (new Date())
 				user.save(callback)
 			})
@@ -220,13 +220,13 @@ var Model = function(mongoose) {
 
 		findById: (_id, callback) => {
 			_id = MOI(_id)
-			Model.findOne({_id}, callback)
+			Model.findOne({ _id }, callback)
 		},
 
 		getByCredentials: (email, password, callback) => {
 			password = sha1(password)
 
-			Model.findOne({email, password}, callback)
+			Model.findOne({ email, password }, callback)
 		},
 
 		isPasswordValid: (_id, password, callback) => {
@@ -234,7 +234,7 @@ var Model = function(mongoose) {
 
 			password = sha1(password)
 
-			Model.findOne({_id, password}, (err, user) => {
+			Model.findOne({ _id, password }, (err, user) => {
 				if (user) return callback(true)
 				else return callback(false)
 			})
@@ -242,23 +242,23 @@ var Model = function(mongoose) {
 
 		findByQuery: (query, callback) => {
 			Model.find(query).lean().exec(callback)
-			console.log('query',query)			
+			console.log('query', query)
 		},
 
 		findByEmail: (email, callback) => {
-			Model.findOne({email}, callback)
-			console.log('email',email)
+			Model.findOne({ email }, callback)
+			console.log('email', email)
 		},
 
 		findByPhone: (phone, callback) => {
-			Model.findOne({phone}, callback)
+			Model.findOne({ phone }, callback)
 		},
 		findUsername: (username, callback) => {
-			Model.findOne({username}, callback)
+			Model.findOne({ username }, callback)
 		},
 
 		findByEmailOrPhone: (value, callback) => {
-			Model.findOne({$or: [{email: value}, {phone: value}]}, callback)
+			Model.findOne({ $or: [{ email: value }, { phone: value }] }, callback)
 		},
 
 		createUser: (params, callback) => {
@@ -274,8 +274,8 @@ var Model = function(mongoose) {
 		setAvatar: (_id, avatar, callback) => {
 			if (typeof _id !== 'object') _id = mongoose.Schema.Types.ObjectId(_id)
 
-			Model.findOne({_id}, (err, user) => {
-				Object.assign(user, {avatar})
+			Model.findOne({ _id }, (err, user) => {
+				Object.assign(user, { avatar })
 				user.save(callback)
 			})
 		},
@@ -283,8 +283,8 @@ var Model = function(mongoose) {
 		setWallpaper: (_id, wallpaper, callback) => {
 			if (typeof _id !== 'object') _id = mongoose.Schema.Types.ObjectId(_id)
 
-			Model.findOne({_id}, (err, user) => {
-				Object.assign(user, {wallpaper})
+			Model.findOne({ _id }, (err, user) => {
+				Object.assign(user, { wallpaper })
 				user.save(callback)
 			})
 		},
@@ -292,8 +292,8 @@ var Model = function(mongoose) {
 		addCertificate: (_id, filename, filepath, callback) => {
 			if (typeof _id !== 'object') _id = mongoose.Schema.Types.ObjectId(_id)
 
-			Model.findOne({_id}, (err, user) => {
-				user.certificates.push({filename, filepath})
+			Model.findOne({ _id }, (err, user) => {
+				user.certificates.push({ filename, filepath })
 				user.save(callback)
 			})
 		},
@@ -301,7 +301,7 @@ var Model = function(mongoose) {
 		getCertificateByName: (_id, filename, callback) => {
 			if (typeof _id !== 'object') _id = mongoose.Schema.Types.ObjectId(_id)
 
-			Model.findOne({_id}, (err, user) => {
+			Model.findOne({ _id }, (err, user) => {
 				for (let cert of user.certificates) {
 					if (cert.filename === filename) {
 						return callback(cert)
@@ -313,7 +313,7 @@ var Model = function(mongoose) {
 		removeCertificateByName: (_id, filename, callback) => {
 			if (typeof _id !== 'object') _id = mongoose.Schema.Types.ObjectId(_id)
 
-			Model.findOne({_id}, (err, user) => {
+			Model.findOne({ _id }, (err, user) => {
 				user.certificates = user.certificates.filter((cert) => {
 					return cert.filename != filename
 				})
@@ -324,8 +324,8 @@ var Model = function(mongoose) {
 		addDownload: (_id, filename, filepath, callback) => {
 			if (typeof _id !== 'object') _id = mongoose.Schema.Types.ObjectId(_id)
 
-			Model.findOne({_id}, (err, user) => {
-				user.downloads.push({filename, filepath})
+			Model.findOne({ _id }, (err, user) => {
+				user.downloads.push({ filename, filepath })
 				user.save(callback)
 			})
 		},
@@ -333,7 +333,7 @@ var Model = function(mongoose) {
 		getDownloadByName: (_id, filename, callback) => {
 			if (typeof _id !== 'object') _id = mongoose.Schema.Types.ObjectId(_id)
 
-			Model.findOne({_id}, (err, user) => {
+			Model.findOne({ _id }, (err, user) => {
 				for (let cert of user.downloads) {
 					if (cert.filename === filename) {
 						return callback(cert)
@@ -345,7 +345,7 @@ var Model = function(mongoose) {
 		removeDownloadByName: (_id, filename, callback) => {
 			if (typeof _id !== 'object') _id = mongoose.Schema.Types.ObjectId(_id)
 
-			Model.findOne({_id}, (err, user) => {
+			Model.findOne({ _id }, (err, user) => {
 				user.downloads = user.downloads.filter((file) => {
 					return file.filename != filename
 				})
@@ -355,7 +355,7 @@ var Model = function(mongoose) {
 		update: (_id, data, callback) => {
 			if (typeof _id !== 'object') _id = mongoose.Types.ObjectId(_id)
 
-			Model.findOne({_id}, (err, user) => {
+			Model.findOne({ _id }, (err, user) => {
 				Object.assign(user, data)
 				user.save(callback)
 			})
@@ -364,7 +364,7 @@ var Model = function(mongoose) {
 		updatePassword: (_id, password, callback) => {
 			_id = MOI(_id)
 
-			Model.findOne({_id}, (err, user) => {
+			Model.findOne({ _id }, (err, user) => {
 				user.password = sha1(password)
 				user.save(callback)
 			})
@@ -373,17 +373,17 @@ var Model = function(mongoose) {
 		updateOldPassword: (_id, password, newPassword, callback) => {
 			if (typeof _id !== 'object') _id = mongoose.Types.ObjectId(_id)
 
-			let query = {_id}
+			let query = { _id }
 
 			if (password) {
 				query.password = sha1(password)
 			} else {
-				query.password = {$in: [null, false]}
+				query.password = { $in: [null, false] }
 			}
 
 			Model.findOne(query, (err, user) => {
 				if (!user) {
-					return callback({message: 'User not found'})
+					return callback({ message: 'User not found' })
 				}
 
 				user.password = sha1(newPassword)
@@ -392,12 +392,12 @@ var Model = function(mongoose) {
 		},
 
 		updateSettings: (book, _id, name, email, phone, country, city, gender, field, language, username, callback) => {
-				
+
 			if (typeof _id !== 'object') _id = mongoose.Schema.Types.ObjectId(_id)
-			
-				
-			Model.findOne({_id}, (err, user) => {
-				Object.assign(user, {name, email, phone, country, city, gender, field, language, username, book})				
+
+
+			Model.findOne({ _id }, (err, user) => {
+				Object.assign(user, { name, email, phone, country, city, gender, field, language, username, book })
 				user.save(callback)
 
 			})
@@ -408,10 +408,17 @@ var Model = function(mongoose) {
 			if (!intro) return callback()
 			intro = intro.replace(/(\n|\r\n|\n\r)/g, '<br>')
 
-			Model.findOne({_id}, (err, user) => {
-				Object.assign(user, {contact, experience, intro, name, title})
+			Model.findOne({ _id }, (err, user) => {
+				Object.assign(user, { contact, experience, intro, name, title })
 				user.save(callback)
 			})
+		},
+		upgradeToExpert: (_id, callback) => {
+			Model.findOne({ _id }, (err, user) => {
+				Object.assign(user, { role: "expert" })
+				user.save(callback);
+			})
+			
 		},
 
 		getReactionsOnUser: (_id, callback) => {
@@ -429,13 +436,13 @@ var Model = function(mongoose) {
 						// Get articles made by user
 						(cb) => {
 							models.Article.getByUserLean(_id, (err, articles) => {
-								let articlesIds = articles.map((article) => {return article._id})
+								let articlesIds = articles.map((article) => { return article._id })
 								cb(null, articlesIds)
 							})
 						},
 						// Get reactions to user's articles
 						(articlesIds, cb) => {
-							models.PostReaction.findLean({post: {$in: articlesIds}}, (err, postsreactions) => {
+							models.PostReaction.findLean({ post: { $in: articlesIds } }, (err, postsreactions) => {
 								for (let reaction of postsreactions) {
 									switch (reaction.type) {
 										case 'like':
@@ -485,14 +492,14 @@ var Model = function(mongoose) {
 		},
 
 		updateNotificationsSettings: (_id, expert, journalist, liked, reacted, callback) => {
-			Model.findOne({_id}, (err, user) => {
-				Object.assign(user.notifications, {expert, journalist, liked, reacted})
+			Model.findOne({ _id }, (err, user) => {
+				Object.assign(user.notifications, { expert, journalist, liked, reacted })
 				user.save(callback)
 			})
 		},
 
 		doesHavePassword: (_id, callback) => {
-			Model.findOne({_id}, {password: 1}, (err, user) => {
+			Model.findOne({ _id }, { password: 1 }, (err, user) => {
 				callback(err, !!user.password)
 			})
 		},
@@ -501,8 +508,8 @@ var Model = function(mongoose) {
 			user = MOI(user)
 
 			Model.aggregate([
-				{$match: filter},
-				{$sample: {size: count}}
+				{ $match: filter },
+				{ $sample: { size: count } }
 			]).exec((err, users) => {
 				async.mapSeries(users, setXpInfo, callback)
 			})
@@ -525,7 +532,7 @@ var Model = function(mongoose) {
 			models.BlockedUser.getBlockedByUser(user, (err, blockeds) => {
 				var blockedIds = blockeds.map((b) => b._id)
 				blockedIds.push(user)
-				query['_id'] = {$nin: blockedIds}
+				query['_id'] = { $nin: blockedIds }
 				console.log(query);
 				Model.find(query).lean().skip(skip).limit(limit).exec((err, users) => {
 					async.mapSeries(users, setXpInfo, callback)
@@ -542,63 +549,63 @@ var Model = function(mongoose) {
 			// if (role) roleQuery = role
 
 			let query = {}
-			
-			
+
+
 			query.name = new RegExp(q, 'gi')
 			Model.find(query).lean().skip(skip).limit(limit).exec((err, users) => {
 				if (err) return callback(err);
-				Model.count(query).exec((error, result)=>{
-					callback(error, users,result)
+				Model.count(query).exec((error, result) => {
+					callback(error, users, result)
 				})
-				
-			})			
+
+			})
 		},
-		searchFriendsAndFollowersNicknames : (executorID, options, callback) => {
-            if (!options || !options.query) return [];
-            if (typeof executorID !== 'object') executorID = mongoose.Types.ObjectId(executorID)
-            async.waterfall([
-                (next) => {
-                    async.parallel({
-                        friends: cb => {
-                            models.Friendship.friends(executorID, (err, friendsIDS) => {
-                                return cb(null, friendsIDS)
-                            })
-                        },
-                        followed: cb => {
-                            models.Follow.followedByUser(executorID, {lean: true}, (err, followedIDS) => {
-                                return cb(null, followedIDS);
-                            })
-                        }
-                    }, (err, ids) => {
-                        next(err, ids);
-                    })
-                }
-            ], (err, usersIds) => {
-                let friendsIds = (usersIds.friends) ? usersIds.friends.map(MOI) : usersIds.friends
-                let followedIds = (usersIds.followed) ? usersIds.followed.map(MOI) : usersIds.followed
-                let dbQuery = Model.find({
-                    $or: [
-                        {
-                            $and: [
-                                {nickname: {$regex: options.query, $options: 'gi'} },
-                                {role: 'expert'},
-                                {_id: {$in: followedIds}}
-                            ]
-                        },
-                        {
-                            $and: [
-                                {nickname: {$regex: options.query, $options: 'gi'}},
-                                {_id: {$in: friendsIds}}
-                            ]
-                        }
-                    ]
-                }, 'nickname')
-                if (options.limit) dbQuery.limit(options.limit)
-                dbQuery.exec((err, results) => {
-                    if (err) callback(err, [])
-                    else callback(null, results)
-                })
-            })
+		searchFriendsAndFollowersNicknames: (executorID, options, callback) => {
+			if (!options || !options.query) return [];
+			if (typeof executorID !== 'object') executorID = mongoose.Types.ObjectId(executorID)
+			async.waterfall([
+				(next) => {
+					async.parallel({
+						friends: cb => {
+							models.Friendship.friends(executorID, (err, friendsIDS) => {
+								return cb(null, friendsIDS)
+							})
+						},
+						followed: cb => {
+							models.Follow.followedByUser(executorID, { lean: true }, (err, followedIDS) => {
+								return cb(null, followedIDS);
+							})
+						}
+					}, (err, ids) => {
+						next(err, ids);
+					})
+				}
+			], (err, usersIds) => {
+				let friendsIds = (usersIds.friends) ? usersIds.friends.map(MOI) : usersIds.friends
+				let followedIds = (usersIds.followed) ? usersIds.followed.map(MOI) : usersIds.followed
+				let dbQuery = Model.find({
+					$or: [
+						{
+							$and: [
+								{ nickname: { $regex: options.query, $options: 'gi' } },
+								{ role: 'expert' },
+								{ _id: { $in: followedIds } }
+							]
+						},
+						{
+							$and: [
+								{ nickname: { $regex: options.query, $options: 'gi' } },
+								{ _id: { $in: friendsIds } }
+							]
+						}
+					]
+				}, 'nickname')
+				if (options.limit) dbQuery.limit(options.limit)
+				dbQuery.exec((err, results) => {
+					if (err) callback(err, [])
+					else callback(null, results)
+				})
+			})
 		},
 
 		/**
@@ -606,15 +613,15 @@ var Model = function(mongoose) {
 		 * @param nicknames Array
 		 * @returns Promise
 		 * */
-        getUsersByNicknames: nicknames => {
-           return new Promise((resolve, reject) => {
-               if (!nicknames || nicknames.length < 1) return resolve([])
-               Model.find({nickname: {$in: nicknames}}).exec((err, users) => {
-                   if (err) return reject(err)
-				   resolve(users)
-               })
-		   })
-        },
+		getUsersByNicknames: nicknames => {
+			return new Promise((resolve, reject) => {
+				if (!nicknames || nicknames.length < 1) return resolve([])
+				Model.find({ nickname: { $in: nicknames } }).exec((err, users) => {
+					if (err) return reject(err)
+					resolve(users)
+				})
+			})
+		},
 
 		findByCronScheduledToday: (callback) => {
 			var now = new Date();

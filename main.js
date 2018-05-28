@@ -216,11 +216,12 @@ global.getCategories = (coach) => {
                 { id: 1, title: 'Consulting', tag: 'consulting', count: 0 },
                 { id: 2, title: 'Accounting', tag: 'accounting', count: 0 },
                 { id: 3, title: 'Legal', tag: 'legal', count: 0 },
-                { id: 4, title: 'Technology', tag: 'technology', count: 0 },
-                { id: 5, title: 'Engeneering', tag: 'engeneering', count: 0 },
-                { id: 6, title: 'Recruiting', tag: 'recruiting', count: 0 },
-                { id: 7, title: 'Real Estate', tag: 'real', count: 0 },
-                { id: 8, title: 'Other', tag: 'other', count: 0 },
+                { id: 4, title: 'Creative', tag: 'legal', count: 0 },                
+                { id: 5, title: 'Technology', tag: 'technology', count: 0 },
+                { id: 6, title: 'Engeneering', tag: 'engeneering', count: 0 },
+                { id: 7, title: 'Recruiting', tag: 'recruiting', count: 0 },
+                { id: 8, title: 'Real Estate', tag: 'real', count: 0 },
+                { id: 9, title: 'Other', tag: 'other', count: 0 },
             ]
             break;
 
@@ -235,7 +236,7 @@ global.getCategories = (coach) => {
 app.get('/static/categories', (req, res) => {
 
     let country = req.query.country
-    let coach = req.query.coach
+    let coach = req.query.coach?req.query.coach:"1"
 
     let categories = getCategories(coach)
 

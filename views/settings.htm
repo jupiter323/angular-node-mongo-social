@@ -8,7 +8,8 @@
 			<div class="settings-list" ng-show="user">
 				<a ng-click="activePage = 'general'" ng-class="{active: activePage == 'general'}" href="javascript:void(0);">General</a>
 				<a ng-click="activePage = 'password'" ng-class="{active: activePage == 'password'}" href="javascript:void(0);">Change password</a>
-				<a ng-hide="user.role == 'User'" ng-click="activePage = 'notifications'" ng-class="{active: activePage == 'notifications'}" href="javascript:void(0);">Notifications</a>
+				<a ng-hide="user.role == 'User'" ng-click="activePage = 'notifications'" ng-class="{active: activePage == 'notifications'}"
+				 href="javascript:void(0);">Notifications</a>
 				<div class="divider"></div>
 				<a ng-click="activePage = 'socialconnect'" ng-class="{active: activePage == 'socialconnect'}" href="javascript:void(0);">Social connect</a>
 				<a ng-click="activePage = 'importcontacts'" ng-class="{active: activePage == 'importcontacts'}" href="javascript:void(0);">Import contacts</a>
@@ -24,7 +25,8 @@
 
 					<div class="divider"></div>
 					<div class="settings-field-block">
-						<label>Username</label><input type="text" name="username" ng-model="user.username" minlength="6" required>
+						<label>Username</label>
+						<input type="text" name="username" ng-model="user.username" minlength="6" required>
 						<div class="clear"></div>
 					</div>
 
@@ -37,18 +39,21 @@
 						<div class="clear"></div>
 					</div> -->
 					<div class="settings-field-block">
-						<label>Full name</label><input type="text" name="name" ng-model="user.name" minlength="6" required>
+						<label>Full name</label>
+						<input type="text" name="name" ng-model="user.name" minlength="6" required>
 						<div class="clear"></div>
 					</div>
 
 					<div class="settings-field-block">
-						<label>Email</label><input type="text" name="email" minlength="1" value="{{user.email}}" required>
+						<label>Email</label>
+						<input type="text" name="email" minlength="1" value="{{user.email}}" required>
 						<div class="clear"></div>
 						<div class="error">{{emailerror}}</div>
 					</div>
 
 					<div class="settings-field-block">
-						<label>Phone</label><input type="text" name="phone" minlength="8" ng-pattern="/^[0-9\(\) \+]+$/" value="{{user.phone}}" required>
+						<label>Phone</label>
+						<input type="text" name="phone" minlength="8" ng-pattern="/^[0-9\(\) \+]+$/" value="{{user.phone}}" required>
 						<div class="clear"></div>
 						<div class="error">{{phoneerror}}</div>
 					</div>
@@ -61,7 +66,7 @@
 							<option ng-repeat="country in countries" value="{{country}}">{{country}}</option>
 						</select>
 						<div class="clear"></div>
-					</div>		
+					</div>
 
 					<div class="settings-field-block">
 						<label>Field</label>
@@ -90,71 +95,85 @@
 						</select>
 						<div class="clear"></div>
 					</div>
-					<h1 style="text-align: center; padding-bottom: 20px ;font-size: 20px;font-weight: bold;">Book</h1>	
-
-					<div ng-repeat="(i,item) in user.book"> 
+					<div class="divider"></div>
+					<!-- upgrade to expert start-->
+					<button ng-if="user.role=='User'" ng-class="submitClass" class="cta-button" ng-click="upgradeToExpert()">Upgrade to Expert</button>
+					<div ng-if="user.role=='User'" id="dropin-wrapper">
+						<div id="checkout-message"></div>
+						<div id="dropin-container"></div>
+						<button class="cta-button" id="submit-button">Submit payment</button>
+					</div>
+					
+					<img ng-if="user.role=='Expert'" src="assets/images/paymentV.png">
+					<!-- upgrade to expert end -->
+					<div class="divider"></div>
+					<h1 style="text-align: center; padding-bottom: 20px ;font-size: 20px;font-weight: bold;">Book</h1>
+					<div ng-repeat="(i,item) in user.book">
 						<div class="close-btn-wrap">
-                            <button  ng-click="hidden($index)"  class="btn btn-danger">x</button>
-                        </div>
+							<button ng-click="hidden($index)" class="btn btn-danger">x</button>
+						</div>
 						<h1 style="text-align: center; padding-bottom: 20px ;font-size: 20px;font-weight: bold;">#{{$index+1}}</h1>
 						<div class="settings-field-block">
-						<label>Title</label><input type="text" name="email" minlength="1" ng-model="item.title" required>
-						<div class="clear"></div>
-						
+							<label>Title</label>
+							<input type="text" name="email" minlength="1" ng-model="item.title" required>
+							<div class="clear"></div>
+
 						</div>
 
 						<div class="settings-field-block">
 							<!-- <label>Author</label><input type="text" name="email" minlength="1" ng-model="item.author" required> -->
 
 							<label>Author</label>
-                            <div class="author-st" ng-repeat="aut in item.author track by $index">{{aut}}   
-                                <button class="btnlsct" ng-click="removeAuthor(i, $index)">x</button>
-                            </div>
-                            <input class="author-st-ip" ng-change="myFunc(i, item)" ng-model="item.authersearch" type="text" require>
+							<div class="author-st" ng-repeat="aut in item.author track by $index">{{aut}}
+								<button class="btnlsct" ng-click="removeAuthor(i, $index)">x</button>
+							</div>
+							<input class="author-st-ip" ng-change="myFunc(i, item)" ng-model="item.authersearch" type="text" require>
 							<div class="clear"></div>
-							
+
 						</div>
-						<div class="clear"></div>   
-                        <div class="authorst-tb" ng-hide="hiddenAuthor[i]"> 
-                            <ul>
-                                <li ng-repeat="ite in authorresults" ng-click="addauthor(i, ite.username)">
-                                    <div class="authorav">
-                                        <img class="img-author" src="{{ite.avatar}}">
-                                    </div>
-                                    <div class="authorn">
-                                        <div>{{ite.name}}</div>
-                                        <div>@{{ite.username}}</div>
-                                    </div>
-                                </li>                                      
-                            </ul>
-                        </div>
-						<div class="settings-field-block">
-							<label>Publications</label><input type="text" name="email" minlength="1" ng-model="item.publication" required>
-							<div class="clear"></div>
-							
+						<div class="clear"></div>
+						<div class="authorst-tb" ng-hide="hiddenAuthor[i]">
+							<ul>
+								<li ng-repeat="ite in authorresults" ng-click="addauthor(i, ite.username)">
+									<div class="authorav">
+										<img class="img-author" src="{{ite.avatar}}">
+									</div>
+									<div class="authorn">
+										<div>{{ite.name}}</div>
+										<div>@{{ite.username}}</div>
+									</div>
+								</li>
+							</ul>
 						</div>
 						<div class="settings-field-block">
-							<label>Retail Store</label><input type="text" name="email" minlength="1" ng-model="item.retailstore" required>
+							<label>Publications</label>
+							<input type="text" name="email" minlength="1" ng-model="item.publication" required>
 							<div class="clear"></div>
-							
+
+						</div>
+						<div class="settings-field-block">
+							<label>Retail Store</label>
+							<input type="text" name="email" minlength="1" ng-model="item.retailstore" required>
+							<div class="clear"></div>
+
 						</div>
 
-					</div>						
+					</div>
 
 					<div class="input-group" style="float: right">
-                        <a href="javascript:void(0);" class="add-more" ng-hide='user.book.length>4'  ng-click="addMoreBooks()">
-                            <i class="fa fa-plus"></i>
-                            Add more books
-                        </a>
-                    </div> 
-                    <div class="clear"></div>
+						<a href="javascript:void(0);" class="add-more" ng-hide='user.book.length>4' ng-click="addMoreBooks()">
+							<i class="fa fa-plus"></i>
+							Add more books
+						</a>
+					</div>
+					<div class="clear"></div>
 
 					<div class="divider"></div>
 					<div class="tb-request">
-                        <div ng-class="submitClass">
-                            {{submitResult}}
-                        </div>
-                    </div>
+						<div ng-class="submitClass">
+							{{submitResult}}
+						</div>
+					</div>
 					<input type="submit" ng-class="submitClass" class="cta-button" value="Save changes">
 				</form>
 			</div>
@@ -167,7 +186,9 @@
 					<div class="divider"></div>
 
 					<div class="settings-field-block" ng-if="user.havePassword">
-						<label>Current</label><input name="oldPassword" type="{{($parent.oldPasswordShow) ? 'text' : 'password'}}" minlength="8" ng-pattern="/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/" ng-model="$parent.oldPassword" required>
+						<label>Current</label>
+						<input name="oldPassword" type="{{($parent.oldPasswordShow) ? 'text' : 'password'}}" minlength="8" ng-pattern="/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/"
+						 ng-model="$parent.oldPassword" required>
 						<a href="javascript:void(0);" class="input-control" ng-click="$parent.oldPasswordShow = !$parent.oldPasswordShow">
 							<i class="material-icons">{{($parent.oldPasswordShow) ? 'visibility_off' : 'visibility'}}</i>
 						</a>
@@ -175,7 +196,9 @@
 					</div>
 
 					<div class="settings-field-block">
-						<label>New</label><input name="newPassword" type="{{(newPasswordShow) ? 'text' : 'password'}}" minlength="8" ng-pattern="/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/" ng-model="newPassword" required>
+						<label>New</label>
+						<input name="newPassword" type="{{(newPasswordShow) ? 'text' : 'password'}}" minlength="8" ng-pattern="/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/"
+						 ng-model="newPassword" required>
 						<a href="javascript:void(0);" class="input-control" ng-click="newPasswordShow = !newPasswordShow">
 							<i class="material-icons">{{(newPasswordShow) ? 'visibility_off' : 'visibility'}}</i>
 						</a>
@@ -183,7 +206,9 @@
 					</div>
 
 					<div class="settings-field-block">
-						<label>Repeat</label><input name="newPasswordRepeat" type="{{(newPasswordRepeatShow) ? 'text' : 'password'}}" minlength="8" ng-pattern="/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/" ng-model="newPasswordRepeat" required>
+						<label>Repeat</label>
+						<input name="newPasswordRepeat" type="{{(newPasswordRepeatShow) ? 'text' : 'password'}}" minlength="8" ng-pattern="/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/"
+						 ng-model="newPasswordRepeat" required>
 						<a href="javascript:void(0);" class="input-control" ng-click="newPasswordRepeatShow = !newPasswordRepeatShow">
 							<i class="material-icons">{{(newPasswordRepeatShow) ? 'visibility_off' : 'visibility'}}</i>
 						</a>
@@ -199,7 +224,8 @@
 			</div>
 
 			<div class="settings-wrapper" ng-class="{active: activePage == 'notifications'}">
-				<a href="javascript:void(0);" ng-class="{disabled: !user.notifications.expert && !user.notifications.journalist && !user.notifications.reacted && !user.notifications.liked}" ng-click="turnAllOff()" class="top-link">Turn off all notifications</a>
+				<a href="javascript:void(0);" ng-class="{disabled: !user.notifications.expert && !user.notifications.journalist && !user.notifications.reacted && !user.notifications.liked}"
+				 ng-click="turnAllOff()" class="top-link">Turn off all notifications</a>
 				<h3>Notifications</h3>
 				<div class="subtitle">Manage your notifications.</div>
 
@@ -295,7 +321,8 @@
 
 			<div class="settings-wrapper" ng-class="{active: activePage == 'importcontacts'}">
 				<h3>Import contacts</h3>
-				<div class="subtitle">Choosing a service will open a window for you to log in securely and import your contacts to Expert Reaction. We won't email anyone without your consent, but we may use contact information to improve Expert and Followers suggestions</div>
+				<div class="subtitle">Choosing a service will open a window for you to log in securely and import your contacts to Expert Reaction. We won't
+					email anyone without your consent, but we may use contact information to improve Expert and Followers suggestions</div>
 
 				<div class="divider"></div>
 
