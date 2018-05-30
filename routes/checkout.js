@@ -28,19 +28,22 @@ router.post('/', function (req, res, next) {
         }
     }, function (error, result) {
         if (result) {
-            switch (req.body.data.mode) {
-                case 'booking':
-                    booking();
-                    break;
-                case 'upToExpert':
-                    upToExpert(req.body.data.user).then(() => {
-                        res.send({ success: true })
-                    }).catch(() => {
-                        res.status(400).send({ message: 'Unable to update user' })
+            if (result.success)
+                switch (req.body.data.mode) {
+                    case 'booking':
+                        booking();
+                        break;
+                    case 'upToExpert':
 
-                    });
-                    break;
-            }
+                        upToExpert(req.body.data.user).then(function (resolve) {
+                            res.send({ success: true })
+                        }, function (err) {
+                            res.status(400).send({ message: 'Unable to update user' })
+
+                        })
+                        break;
+                }
+            else res.send({ success: false, message: 'Payment problem' })
         } else {
             res.status(500).send(error);
         }
@@ -50,16 +53,16 @@ function booking() {
 
 }
 function upToExpert(user) {
-    var promise = new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         models.User.upgradeToExpert(user._id, (err, result) => {
-            if (err) reject;
-            else resolve
 
+            if (err) reject(err);
+            else {
+
+                resolve(result);
+            }
         })
-
     })
-    return promise;
-
 }
 
 module.exports = router;

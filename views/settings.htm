@@ -97,11 +97,11 @@
 					</div>
 					<div class="divider"></div>
 					<!-- upgrade to expert start-->
-					<button ng-if="user.role=='User'" ng-class="submitClass" class="cta-button" ng-click="upgradeToExpert()">Upgrade to Expert</button>
 					<div ng-if="user.role=='User'" id="dropin-wrapper">
 						<div id="checkout-message"></div>
 						<div id="dropin-container"></div>
-						<button class="cta-button" id="submit-button">Submit payment</button>
+						<button ng-if="user.role=='User'" id="submit-button" ng-class="submitClass" class="cta-button" ng-click="upgradeToExpert()">Upgrade to Expert</button>
+						<!-- <button class="cta-button" id="submit-button">Submit payment</button> -->
 					</div>
 					
 					<img ng-if="user.role=='Expert'" src="assets/images/paymentV.png">

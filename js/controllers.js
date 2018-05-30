@@ -30,13 +30,17 @@ function paymentLink(data) {
 				// When the user clicks on the 'Submit payment' button this code will send the
 				// encrypted payment information in a variable called a payment method nonce
 				// window.location.replace('/#!/settings');
+
 				$.ajax({
 					type: 'POST',
 					url: '/checkout',
 					data: { 'paymentMethodNonce': payload.nonce, data: data },
-					
+					error: function (err) {
+						alert("err")
+						console.log(err);
+					}
+
 				}).done(function (result) {
-					
 					// Tear down the Drop-in UI
 					instance.teardown(function (teardownErr) {
 						if (teardownErr) {
@@ -47,15 +51,15 @@ function paymentLink(data) {
 							$('#submit-button').remove();
 						}
 					});
-					console.log(result);
+
 					if (result.success) {
 
-						$('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+						$('#checkout-message').html('<img src="assets/images/paymentV.png">');
 					} else {
-						console.log(result);
-						$('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+
+						$('#checkout-message').html('<h1>Error</h1><p>Payment has problem.</p>');
 					}
-				});
+				})
 			});
 		});
 	});
